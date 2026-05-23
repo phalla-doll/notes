@@ -8,7 +8,7 @@ export function useZoom() {
     const editor = useEditor()
     const [zoom, setZoom] = useState(() => editor.getZoomLevel())
     const [level, setLevel] = useState<ZoomLevel>(() =>
-        getZoomLevel(editor.getZoomLevel()),
+        getZoomLevel(editor.getZoomLevel())
     )
 
     useEffect(() => {

@@ -10,6 +10,9 @@ interface ZoomRendererProps {
     level: ZoomLevel
 }
 
+const khmerFontFamily =
+    "var(--font-khmer), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif"
+
 export function ZoomRenderer({ note, level }: ZoomRendererProps) {
     const color = note.color ?? "#3b82f6"
 
@@ -39,7 +42,7 @@ export function ZoomRenderer({ note, level }: ZoomRendererProps) {
                         padding: "8px 12px",
                         display: "flex",
                         alignItems: "flex-start",
-                        fontFamily: "var(--font-sans)",
+                        fontFamily: khmerFontFamily,
                         fontSize: 13,
                         fontWeight: 600,
                         color: "var(--color-foreground)",
@@ -62,7 +65,7 @@ export function ZoomRenderer({ note, level }: ZoomRendererProps) {
                         borderRadius: 8,
                         border: `2px solid ${color}`,
                         padding: "8px 12px",
-                        fontFamily: "var(--font-sans)",
+                        fontFamily: khmerFontFamily,
                         fontSize: 11,
                         color: "var(--color-foreground)",
                         overflow: "hidden",
@@ -106,7 +109,7 @@ export function ZoomRenderer({ note, level }: ZoomRendererProps) {
                         borderRadius: 8,
                         border: `2px solid ${color}`,
                         padding: "8px 12px",
-                        fontFamily: "var(--font-sans)",
+                        fontFamily: khmerFontFamily,
                         fontSize: 12,
                         color: "var(--color-foreground)",
                         overflow: "auto",

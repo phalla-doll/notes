@@ -17,7 +17,7 @@ export function CanvasProvider({ children, onMount }: CanvasProviderProps) {
             editorRef.current = editor
             onMount?.(editor)
         },
-        [onMount],
+        [onMount]
     )
 
     return (

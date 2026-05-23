@@ -56,7 +56,7 @@ export class SyncEngine {
             (item) =>
                 item.entity === entity &&
                 item.id === data.id &&
-                item.action !== "delete",
+                item.action !== "delete"
         )
 
         if (existing) {
@@ -79,7 +79,7 @@ export class SyncEngine {
 
     enqueueDelete(entity: "note" | "workspace", id: string) {
         this.queue = this.queue.filter(
-            (item) => !(item.entity === entity && item.id === id),
+            (item) => !(item.entity === entity && item.id === id)
         )
 
         this.queue.push({
@@ -115,8 +115,7 @@ export class SyncEngine {
         }
 
         try {
-            const remoteWorkspaces =
-                await this.remote.listWorkspaces(ownerId)
+            const remoteWorkspaces = await this.remote.listWorkspaces(ownerId)
             for (const ws of remoteWorkspaces) {
                 await this.local.saveWorkspace(ws)
             }

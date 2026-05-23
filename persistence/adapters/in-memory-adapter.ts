@@ -63,9 +63,7 @@ class InMemoryAdapter implements PersistencePort {
         this.connections.delete(id)
     }
 
-    async listConnections(
-        _workspaceId: string,
-    ): Promise<NoteConnection[]> {
+    async listConnections(_workspaceId: string): Promise<NoteConnection[]> {
         void _workspaceId
         return Array.from(this.connections.values()).map((c) => ({ ...c }))
     }

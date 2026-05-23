@@ -36,17 +36,18 @@ export function NoteSyncLayer({ workspaceId }: { workspaceId: string }) {
             if (target.closest(".tl-container")) return
 
             const point = editor.screenToPage({ x: e.clientX, y: e.clientY })
-            createNote(workspaceId, { x: point.x, y: point.y }).then(
-                (note) => {
-                    setActiveNote(note.id)
-                },
-            )
+            createNote(workspaceId, { x: point.x, y: point.y }).then((note) => {
+                setActiveNote(note.id)
+            })
         }
 
         const el = editor.getContainer()
         el.addEventListener("dblclick", handleDoubleClick as EventListener)
         return () => {
-            el.removeEventListener("dblclick", handleDoubleClick as EventListener)
+            el.removeEventListener(
+                "dblclick",
+                handleDoubleClick as EventListener
+            )
         }
     }, [editor, workspaceId, createNote, setActiveNote])
 
@@ -57,7 +58,7 @@ const syncedIds = new Set<string>()
 
 async function syncNotesToCanvas(
     editor: ReturnType<typeof useEditor>,
-    notes: import("@/types/note").NoteNode[],
+    notes: import("@/types/note").NoteNode[]
 ) {
     for (const note of notes) {
         const shapeId = note.id as TLShapeId

@@ -102,8 +102,7 @@ export function setPersistence(adapter: PersistencePort): void {
         syncedAdapter.stop()
     }
     syncedAdapter = null
-    ;(globalThis as Record<string, unknown>).__persistence_override =
-        adapter
+    ;(globalThis as Record<string, unknown>).__persistence_override = adapter
 }
 
 export type { PersistencePort } from "./types"

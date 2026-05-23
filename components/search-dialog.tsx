@@ -22,7 +22,7 @@ export function SearchDialog() {
         ? notes.filter(
               (n) =>
                   n.title.toLowerCase().includes(query.toLowerCase()) ||
-                  n.preview.toLowerCase().includes(query.toLowerCase()),
+                  n.preview.toLowerCase().includes(query.toLowerCase())
           )
         : []
 
@@ -38,11 +38,14 @@ export function SearchDialog() {
             closeSearch()
             setQuery("")
         },
-        [editor, closeSearch],
+        [editor, closeSearch]
     )
 
     return (
-        <Dialog open={searchOpen} onOpenChange={(open) => !open && closeSearch()}>
+        <Dialog
+            open={searchOpen}
+            onOpenChange={(open) => !open && closeSearch()}
+        >
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle>Search Notes</DialogTitle>
@@ -52,7 +55,7 @@ export function SearchDialog() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search by title or content..."
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:outline-none"
                     autoFocus
                 />
                 <div className="max-h-64 overflow-y-auto">

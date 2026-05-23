@@ -13,16 +13,16 @@ interface NotesState {
     createNote: (
         workspaceId: string,
         position: { x: number; y: number },
-        markdown?: string,
+        markdown?: string
     ) => Promise<NoteNode>
     updateNote: (id: string, updates: Partial<NoteNode>) => Promise<void>
     updateNotePosition: (
         id: string,
-        position: { x: number; y: number },
+        position: { x: number; y: number }
     ) => Promise<void>
     updateNoteSize: (
         id: string,
-        size: { width: number; height: number },
+        size: { width: number; height: number }
     ) => Promise<void>
     updateNoteMarkdown: (id: string, markdown: string) => Promise<void>
     deleteNote: (id: string) => Promise<void>

@@ -1,14 +1,21 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Fasthand, Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" })
 
 const fontMono = Geist_Mono({
     subsets: ["latin"],
-    variable: "--font-mono",
+    variable: "--font-geist-mono",
+})
+
+const khmer = Fasthand({
+    weight: "400",
+    subsets: ["khmer", "latin"],
+    variable: "--font-khmer",
+    display: "swap",
 })
 
 export default function RootLayout({
@@ -23,6 +30,7 @@ export default function RootLayout({
             className={cn(
                 "antialiased",
                 fontMono.variable,
+                khmer.variable,
                 "font-sans",
                 geist.variable
             )}

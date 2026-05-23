@@ -17,19 +17,13 @@ export default function WorkspacePage({
     const { id } = use(params)
     useKeyboardShortcuts()
 
-    const handleMount = useCallback(
-        (editor: Editor) => {
-            editor.setCursor({ type: "cross" })
-        },
-        [],
-    )
+    const handleMount = useCallback((editor: Editor) => {
+        editor.setCursor({ type: "cross" })
+    }, [])
 
     return (
         <div className="fixed inset-0">
-            <Tldraw
-                shapeUtils={[MarkdownNoteShapeUtil]}
-                onMount={handleMount}
-            >
+            <Tldraw shapeUtils={[MarkdownNoteShapeUtil]} onMount={handleMount}>
                 <NoteSyncLayer workspaceId={id} />
                 <CanvasToolbar />
                 <SearchDialog />

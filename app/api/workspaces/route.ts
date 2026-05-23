@@ -7,12 +7,12 @@ export async function GET(request: NextRequest) {
     if (!ownerId) {
         return NextResponse.json(
             { error: "ownerId is required" },
-            { status: 400 },
+            { status: 400 }
         )
     }
 
     const result = Array.from(workspaces.values()).filter(
-        (w) => w.ownerId === ownerId,
+        (w) => w.ownerId === ownerId
     )
     return NextResponse.json(result)
 }

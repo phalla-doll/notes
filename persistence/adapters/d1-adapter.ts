@@ -65,16 +65,14 @@ class D1Adapter implements PersistencePort {
         void _id
     }
 
-    async listConnections(
-        _workspaceId: string,
-    ): Promise<NoteConnection[]> {
+    async listConnections(_workspaceId: string): Promise<NoteConnection[]> {
         void _workspaceId
         return []
     }
 
     private async fetch<T = unknown>(
         path: string,
-        init?: RequestInit,
+        init?: RequestInit
     ): Promise<T> {
         const url = `${this.baseUrl}${path}`
         const res = await globalThis.fetch(url, {

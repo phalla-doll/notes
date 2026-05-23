@@ -17,10 +17,7 @@ export function useMarkdownEditor({
     placeholder = "Start writing...",
 }: UseMarkdownEditorOptions) {
     const editor = useEditor({
-        extensions: [
-            StarterKit,
-            Placeholder.configure({ placeholder }),
-        ],
+        extensions: [StarterKit, Placeholder.configure({ placeholder })],
         content: markdown,
         onUpdate: ({ editor: e }) => {
             onChange?.(e.getHTML())

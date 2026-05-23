@@ -42,7 +42,7 @@ function tx<T>(
     db: IDBDatabase,
     store: string,
     mode: IDBTransactionMode,
-    fn: (store: IDBObjectStore) => IDBRequest<T>,
+    fn: (store: IDBObjectStore) => IDBRequest<T>
 ): Promise<T> {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction(store, mode)
@@ -126,9 +126,7 @@ class IndexedDBAdapter implements PersistencePort {
         await tx(db, STORES.connections, "readwrite", (s) => s.delete(id))
     }
 
-    async listConnections(
-        _workspaceId: string,
-    ): Promise<NoteConnection[]> {
+    async listConnections(_workspaceId: string): Promise<NoteConnection[]> {
         void _workspaceId
         const db = await this.getDB()
         return new Promise((resolve, reject) => {

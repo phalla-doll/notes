@@ -23,10 +23,7 @@ export function MarkdownEditor({
     autoFocus = false,
 }: MarkdownEditorProps) {
     const editor = useEditor({
-        extensions: [
-            StarterKit,
-            Placeholder.configure({ placeholder }),
-        ],
+        extensions: [StarterKit, Placeholder.configure({ placeholder })],
         content: markdown,
         editorProps: {
             attributes: {

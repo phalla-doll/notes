@@ -46,7 +46,10 @@ export const NoteConnectionSchema = z.object({
 export type ConnectionType = z.infer<typeof ConnectionTypeSchema>
 export type NoteConnection = z.infer<typeof NoteConnectionSchema>
 
-export function createPreview(markdown: string, maxLength: number = 120): string {
+export function createPreview(
+    markdown: string,
+    maxLength: number = 120
+): string {
     const stripped = markdown
         .replace(/^#+\s+/gm, "")
         .replace(/\*\*|__/g, "")

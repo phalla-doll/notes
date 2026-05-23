@@ -72,7 +72,7 @@ export class MarkdownNoteShapeUtil extends ShapeUtil<MarkdownNoteShape> {
 
     override onResize(
         shape: MarkdownNoteShape,
-        info: TLResizeInfo<MarkdownNoteShape>,
+        info: TLResizeInfo<MarkdownNoteShape>
     ) {
         return {
             ...shape,

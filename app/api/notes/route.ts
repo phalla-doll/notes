@@ -7,12 +7,12 @@ export async function GET(request: NextRequest) {
     if (!workspaceId) {
         return NextResponse.json(
             { error: "workspaceId is required" },
-            { status: 400 },
+            { status: 400 }
         )
     }
 
     const result = Array.from(notes.values()).filter(
-        (n) => n.workspaceId === workspaceId,
+        (n) => n.workspaceId === workspaceId
     )
     return NextResponse.json(result)
 }
