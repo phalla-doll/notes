@@ -103,7 +103,7 @@ The app must remain smooth.
 | Frontend | Next.js App Router |
 | UI Framework | React |
 | Language | TypeScript |
-| Canvas Engine | TLDraw |
+| Canvas Engine | Excalidraw |
 | Styling | TailwindCSS |
 | UI Components | shadcn/ui |
 | Database | Cloudflare D1 |
@@ -134,14 +134,14 @@ Perfect for:
 
 ---
 
-## TLDraw
+## Excalidraw
 Handles:
 - infinite canvas
 - zooming
 - panning
 - spatial interactions
-- shapes
-- multiplayer-ready foundation
+- native drawing tools
+- exportable scene format
 
 This removes years of canvas engineering work.
 
@@ -180,7 +180,7 @@ Excellent for startup cost efficiency.
 ```txt
 ┌─────────────────────────────┐
 │         Frontend            │
-│       Next.js + TLDraw      │
+│     Next.js + Excalidraw    │
 └─────────────┬───────────────┘
               │
               ▼
@@ -371,9 +371,9 @@ app/
 ```txt
 Workspace Page
     ↓
-TLDraw Canvas
+Excalidraw Canvas
     ↓
-Custom Markdown Shape
+Markdown Note Projection
     ↓
 Virtualized Rendering
     ↓
@@ -384,13 +384,13 @@ Sync Engine
 
 ---
 
-# Custom TLDraw Shape
+# Excalidraw Note Projection
 
 Core concept:
-- each markdown note is a TLDraw shape
+- each markdown note is source data projected onto Excalidraw elements
 
 ```tsx
-MarkdownNoteShape
+NoteNode -> rectangle + text elements
 ```
 
 Responsibilities:
@@ -680,8 +680,8 @@ Goal:
 Basic infinite markdown canvas.
 
 Features:
-- TLDraw integration
-- custom markdown note shape
+- Excalidraw integration
+- markdown note projection
 - D1 persistence
 - basic editor
 - zoom system
@@ -792,7 +792,7 @@ Mix:
 
 | Purpose | Library |
 |---|---|
-| Canvas | TLDraw |
+| Canvas | Excalidraw |
 | Markdown | remark |
 | Editor | TipTap |
 | Search | FlexSearch |

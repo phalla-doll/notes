@@ -31,9 +31,8 @@ The codebase is a fresh scaffold — one page with a button. This review propose
 
 ### Files
 
-- `canvas/shapes/markdown-note.tsx` — Note shape component
-- `canvas/shapes/markdown-note-util.ts` — TLDraw shape util
-- `canvas/zoom/zoom-renderer.tsx` — Level-based rendering dispatch
+- `canvas/excalidraw-canvas.tsx` — Excalidraw adapter and note projection
+- `canvas/hooks/use-zoom.ts` — Zoom-derived rendering state
 - `editor/markdown-editor.tsx` — TipTap editor (lazy-mounted)
 - `lib/markdown.ts` — remark/rehype pipeline
 
@@ -43,14 +42,14 @@ If note rendering, zoom, editor mounting, and markdown parsing are spread across
 
 ### Solution
 
-One deep **NoteShape** module. Interface: note data + zoom level → rendered output. Internally owns markdown parsing, AST caching, semantic zoom dispatch, and lazy TipTap mounting. TLDraw sees a shape util; the canvas page sees a component.
+One deep **Note Projection** module. Interface: note data + zoom level → canvas elements and editor state. Internally owns markdown parsing, semantic zoom dispatch, and lazy TipTap mounting. Excalidraw sees native elements; the canvas page sees a component.
 
 ### Before
 
 ```
 Canvas Page
-  → TLDraw Component
-    → Shape Renderer
+  → Excalidraw Component
+    → Note Projection
       → Markdown Parser
       → TipTap Editor
       → Zoom Logic
@@ -64,8 +63,8 @@ All scattered. Shape renderer is shallow — interface nearly matches implementa
 
 ```
 Canvas Page
-  → TLDraw Component
-    → NoteShape (deep module)
+  → Excalidraw Component
+    → Note Projection (deep module)
          ├─ Markdown Parser
          ├─ Semantic Zoom
          ├─ TipTap Editor (lazy mount)
@@ -132,51 +131,50 @@ Canvas Page
 
 ---
 
-## Candidate 3: Canvas Module — TLDraw as Implementation
+## Candidate 3: Canvas Module — Excalidraw as Implementation
 
 **Strength:** Strong | **Category:** in-process
 
 ### Files
 
-- `canvas/canvas-provider.tsx`
-- `canvas/canvas-toolbar.tsx`
+- `canvas/excalidraw-canvas.tsx`
 - `canvas/hooks/use-canvas.ts`
 - `canvas/hooks/use-zoom.ts`
 
 ### Problem
 
-TLDraw's API (`useEditor`, `Editor` class, shape util system) leaks into every component that touches the canvas. Toolbar, note cards, workspace page — all import from `@tldraw/tldraw`. If TLDraw's API changes, every caller breaks.
+Canvas engine APIs can leak into every component that touches the canvas. Toolbar, note cards, workspace page, and search should not depend directly on Excalidraw's imperative API.
 
 ### Solution
 
-A Canvas module that wraps TLDraw as its implementation. Public interface: `useCanvas()`, `useZoom()`, `CanvasProvider`. Callers never import from TLDraw directly. Shape registration, event handling, and camera control are internal.
+A Canvas module wraps Excalidraw as its implementation. Public interface: `useCanvas()`, `useZoom()`, and `ExcalidrawCanvas`. Callers never import from Excalidraw directly. Scene projection, event handling, note movement persistence, and camera control are internal.
 
 ### Before
 
 ```
-Canvas Page   → useEditor()  → TLDraw API
-Toolbar       → editor.zoomIn()
-Note Card     → editor.updateShape()
+Canvas Page   → Excalidraw API
+Toolbar       → api.updateScene()
+Note Card     → scene elements
 ```
 
-All import TLDraw directly.
+All depend on canvas engine internals.
 
 ### After
 
 ```
-Canvas Page  → useCanvas() → Canvas Module (deep)
-Toolbar      → zoomIn()    → Canvas Module
-Note Card    → updateNote()→ Canvas Module
+Canvas Page  → ExcalidrawCanvas → Canvas Module (deep)
+Toolbar      → zoomIn()         → Canvas Module
+Note Card    → updateNote()     → Canvas Module
 ```
 
-Callers use domain hooks, not TLDraw APIs.
+Callers use domain hooks, not Excalidraw APIs.
 
 ### Wins
 
-- **Locality:** TLDraw API changes break one module, not N components
-- **Leverage:** domain hooks (`useZoom`) replace raw TLDraw calls
-- **Interface shrinks:** callers use `createNote()`, not `editor.createShape()`
-- **Test surface:** mock the canvas module, not TLDraw internals
+- **Locality:** Excalidraw API changes break one module, not N components
+- **Leverage:** domain hooks (`useZoom`) replace raw Excalidraw calls
+- **Interface shrinks:** callers use `createNote()`, not `updateScene()`
+- **Test surface:** mock the canvas module, not Excalidraw internals
 
 ---
 
@@ -255,11 +253,7 @@ app/
 
 canvas/                               # Canvas module (deep)
 ├── index.ts                          # Public interface
-├── canvas-provider.tsx
-├── canvas-toolbar.tsx
-├── shapes/
-│   ├── markdown-note.tsx             # Note shape component
-│   └── markdown-note-util.ts         # TLDraw shape util
+├── excalidraw-canvas.tsx             # Excalidraw adapter
 ├── zoom/
 │   ├── zoom-levels.ts                # Semantic zoom config
 │   └── zoom-renderer.tsx             # Level-based dispatch
@@ -410,21 +404,21 @@ stores/workspace-store.ts, stores/notes-store.ts, stores/ui-store.ts
 
 Wire stores to persistence module. CRUD operations, optimistic updates.
 
-### Step 04: Canvas module — TLDraw integration
+### Step 04: Canvas module — Excalidraw integration
 
 ```
-canvas/canvas-provider.tsx, canvas/hooks/use-canvas.ts
+canvas/excalidraw-canvas.tsx, canvas/hooks/use-canvas.ts
 ```
 
-TLDraw provider, custom hooks. Canvas renders but shapes are empty rectangles.
+Excalidraw wrapper, custom hooks. Canvas renders and app controls route through the adapter.
 
-### Step 05: Note Shape module — rendering without editor
+### Step 05: Note Projection module — rendering without editor
 
 ```
-canvas/shapes/markdown-note.tsx, canvas/zoom/*
+canvas/excalidraw-canvas.tsx, canvas/zoom/*
 ```
 
-Custom TLDraw shape. Semantic zoom: colored block → title → preview. No editor yet.
+Project notes into Excalidraw rectangle/text elements. Semantic zoom: colored block → title → preview. No editor yet.
 
 ### Step 06: Editor module — TipTap integration
 

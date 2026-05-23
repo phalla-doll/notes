@@ -2,7 +2,7 @@
 
 ## Project
 
-Infinite Markdown Canvas — a spatial markdown note-taking app built with Next.js + TLDraw. Early stage; only scaffolded so far (single page with a button).
+Infinite Markdown Canvas — a spatial markdown note-taking app built with Next.js + Excalidraw. Early stage; currently uses Excalidraw as the canvas engine with markdown notes projected onto native canvas elements.
 
 ## Commands
 
@@ -38,4 +38,4 @@ Run `lint` then `typecheck` after changes.
 
 ## Architecture Notes (from README spec)
 
-The README describes the target architecture: TLDraw canvas with custom markdown note shapes, semantic zoom, D1/R2/Durable Objects backend, Yjs realtime sync, TipTap editor. None of this is implemented yet — the codebase is a fresh scaffold.
+The README describes the target architecture: Excalidraw canvas with markdown note projection, semantic zoom, D1/R2/Durable Objects backend, Yjs realtime sync, TipTap editor.
