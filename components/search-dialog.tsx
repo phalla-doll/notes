@@ -9,14 +9,14 @@ import {
 } from "@/components/ui/dialog"
 import { useNotesStore } from "@/stores/notes-store"
 import { useUIStore } from "@/stores/ui-store"
-import { useEditor, type TLShapeId } from "tldraw"
+import { useCanvas } from "@/canvas/excalidraw-canvas"
 
 export function SearchDialog() {
     const searchOpen = useUIStore((s) => s.searchOpen)
     const closeSearch = useUIStore((s) => s.closeSearch)
     const notes = useNotesStore((s) => s.notes)
     const [query, setQuery] = useState("")
-    const editor = useEditor()
+    const { scrollToNote } = useCanvas()
 
     const results = query.trim()
         ? notes.filter(
@@ -28,17 +28,11 @@ export function SearchDialog() {
 
     const navigateToNote = useCallback(
         (noteId: string) => {
-            const shapeId = noteId as TLShapeId
-            const shape = editor.getShape(shapeId)
-            if (shape) {
-                const bounds = editor.getShapeGeometry(shape).bounds
-                editor.zoomToBounds(bounds, { animation: { duration: 300 } })
-                editor.select(shapeId)
-            }
+            scrollToNote(noteId)
             closeSearch()
             setQuery("")
         },
-        [editor, closeSearch]
+        [scrollToNote, closeSearch]
     )
 
     return (
