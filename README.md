@@ -105,8 +105,9 @@ The app must remain smooth.
 | Language | TypeScript |
 | Canvas Engine | TLDraw |
 | Styling | TailwindCSS |
+| UI Components | shadcn/ui |
 | Database | Cloudflare D1 |
-| Auth | Clerk or Auth.js |
+| Auth | WorkOS |
 | File Storage | Cloudflare R2 |
 | Hosting | Cloudflare Pages |
 | Sync Layer | Durable Objects |
@@ -143,6 +144,16 @@ Handles:
 - multiplayer-ready foundation
 
 This removes years of canvas engineering work.
+
+---
+
+## shadcn/ui
+Perfect for:
+- UI components built on Radix UI primitives
+- TailwindCSS-native styling (fits existing stack)
+- copy-paste ownership model (no dependency lock-in)
+- provides toolbars, dialogs, context menus, dropdowns, tooltips needed for canvas UI
+- fully accessible and customizable
 
 ---
 
@@ -584,10 +595,13 @@ Even if exact words do not exist.
 # Authentication
 
 Recommended:
-- Clerk
+- WorkOS
 
-Alternative:
-- Auth.js
+Why:
+- enterprise-grade SSO and directory sync
+- managed authentication with minimal setup
+- supports SAML, OIDC, and social login
+- ideal for B2B and team collaboration features
 
 ---
 
@@ -787,6 +801,7 @@ Mix:
 | Validation | Zod |
 | Database ORM | Drizzle ORM |
 | Animations | Framer Motion |
+| UI Components | shadcn/ui |
 
 ---
 
